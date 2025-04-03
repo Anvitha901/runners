@@ -1,0 +1,22 @@
+name: actions demo
+
+on: 
+  push:
+    branches:
+      - main  # Runs CI/CD on every push to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # GitHub-hosted runner
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: echo "Installing dependencies..."  # Replace with actual install command
+
+      - name: Run Tests
+        run: echo "Running tests..."  # Replace with actual test command
+
+      - name: Deploy Application
+        run: echo "Deploying application..."  # Replace with actual deployment steps
