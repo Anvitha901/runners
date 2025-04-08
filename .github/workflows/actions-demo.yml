@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted,kind]  # GitHub-hosted runner
+    runs-on: self-hosted # GitHub-hosted runner
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
