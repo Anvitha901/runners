@@ -1,22 +1,26 @@
-name: actions demo
+name: Build in Repo A and Trigger Repo B
 
-on: 
+on:
   push:
-    branches:
-      - main  # Runs CI/CD on every push to the main branch
+    branches: [ main ]
 
 jobs:
-  build:
-    runs-on: self-hosted # GitHub-hosted runner
+  build-and-trigger:
+    runs-on: [self-hosted]
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: echo "Installing dependencies..."  # Replace with actual install command
+      - name: Build Stuff
+        run: echo "Building project in Repo A..."
 
-      - name: Run Tests
-        run: echo "Running tests..."  # Replace with actual test command
+      - name: Wait before triggering next workflow
+        run: sleep 60
 
-      - name: Deploy Application
-        run: echo "Deploying application..."  # Replace with actual deployment steps
+      - name: Trigger Repo B
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.REPO_B_TRIGGER_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/your-org/repo-b/actions/workflows/ci-b.yml/dispatches \
+            -d '{"ref":"main"}'
